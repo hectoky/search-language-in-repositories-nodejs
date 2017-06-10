@@ -6,6 +6,7 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
+
 rl.question('Enter a user to search in the Github respositories ', (answer) => {
 
     var url = utils.format('/users/%s/repos',answer);
@@ -49,6 +50,7 @@ rl.question('Enter a user to search in the Github respositories ', (answer) => {
                     for(var i=0; i<responseObject.length>0; i++){
                         // skip null value such as language
                         if(responseObject[i].language!==null){
+                            // Create a Map (key-> language, Value -> Number of ocurrences)
                             if (languagesMap.has(responseObject[i].language)){
                                 languagesMap.set(responseObject[i].language, languagesMap.get(responseObject[i].language)+1);  
                             }else{
@@ -56,9 +58,11 @@ rl.question('Enter a user to search in the Github respositories ', (answer) => {
                             }
                         }
                     }
+                    
+                    result= 'And the languages more used are ';
+                    
                     // Get the maximun
                     var maximun=0;
-                    result= 'And the languages more used are ';
                     for (let value of languagesMap.values()) {
                         if (value > maximun){ maximun=value};
                     }
